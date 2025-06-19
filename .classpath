@@ -14,5 +14,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="C:/pleiades/2024-12/tomcat/9/lib/mysql-connector-j-9.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-j-9.2.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
