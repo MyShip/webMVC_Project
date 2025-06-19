@@ -1,0 +1,215 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.all_content{
+	position: relative;
+	width: 490px;
+	height: 680px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border:rgb(0, 0, 0) 2px solid;
+	background-color: rgb(192, 192, 192);
+	border-radius: 10px;
+	
+}
+
+.title_content{
+	position: absolute;
+	top: 30px;   /* 上からの距離 */
+	left:50px;  /* 左からの距離 */
+	font-size: 20px;
+}
+.user_content{
+	position: absolute;
+	top: 30px;   /* 上からの距離 */
+	right: 50px;  /* 左からの距離 */
+	font-size: 20px;
+}
+#hiddenButton {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+#hiddenButton.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hidden {
+  display: none;
+}
+.memo_list {
+  width: 100%;
+  padding-left: 20%;
+  counter-reset: memo;
+}
+
+.memo_item {
+  position: relative;
+  margin-bottom: 0px;
+  list-style: none;
+  counter-increment: memo;
+}
+
+.memo_item::before {
+  content: counter(memo) ". ";
+  position: absolute;
+  left: -15px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.memo_form {
+  width: 100%;
+}
+
+.heading {
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  opacity: 0.7;
+  transition: background-color 0.3s ease;
+  text-align: left;
+}
+
+.heading:hover {
+  background-color: #444;
+}
+
+.delete_form {
+  position: absolute;
+  right: -50px;
+  top: 40%;
+  transform: translateY(-50%);
+  display: none;
+}
+.delete_button {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete_button:hover {
+  background-color: rgb(128, 128, 128);
+}
+
+.list_content ol {
+	position: relative;
+	display: inline-block;
+	padding: 0.3em 0.5em;
+	list-style-type: none;
+	border: none;
+	counter-reset: number;
+}
+.list_content ol li {
+  position: relative;
+  line-height: 1.5;
+  padding: 0.5em 0 0.5em 1.6em;
+}
+.list_content ol li:before {
+  position: absolute;
+  font-family: "Quicksand", sans-serif;
+  content: counter(number);
+  counter-increment: number;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 10%;
+  background: rgb(0, 0, 0);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 22px;
+}
+.heading{
+	background-color: #000;
+	width: 100%;
+	height: 30px;
+	color: #fff;
+	opacity: 0.5;
+	border-radius: 10px; 
+}
+.heading:hover{
+	background-color: rgb(128, 128, 128);
+	color: rgb(255, 255, 255);
+}
+.heading:hover::before{
+	transform: scaleX(1);
+	transform-origin: left;
+}
+.heading::before {
+	position: absolute;
+	top: 0;
+	left: 0;
+	content: "";
+	display: block;
+	height: 100%;
+	background: rgb(192, 192, 192);
+	transform: scaleX(0);
+	transform-origin: right;
+	transition: all 0.5s ease;
+	transition-property: transform;
+	opacity: 1;
+	visibility: visible;
+	transition-delay: 2s; /* 2秒間表示を維持 */
+}
+.button_area {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+.new_register_button,
+.logout_button{
+	display: inline-block;
+	text-decoration: none;
+	font-size: 16px;
+	text-align: center;
+	width: 120px;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 25px;
+	background-color: rgb(0, 0, 0);
+	color: #fff;
+	font-weight: 600;
+	cursor: pointer;
+}
+.new_register_button::before{
+	content: "+";
+	color: white;
+	font-size: 26px;
+	font-weight: bold;
+	position: absolute;
+	top: 50%;
+	right: 72%;
+	transform: translate(-50%, -50%); 
+}
+.new_register_button:hover,
+.logout_button:hover{
+	background-color: rgb(128, 128, 128);
+	transform: translateY(2px);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+form .new_register_button,
+form .logout_button{
+    font-family: inherit;
+}

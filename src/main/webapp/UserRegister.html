@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>My Notes</title>
+  <link href='/SampleMVC/UserRegister.css' rel='stylesheet' />
+</head>
+<body>
+	<div class="all_content">
+		<h2 class="form_title">新規登録</h2>
+			<form action="/SampleMVC/UserRegister" method="post" class="form_content">
+			<label>ユーザー名</label>
+			<input type="text" name="name" required>
+
+			<label>パスワード</label>
+			<input type="password" name="password" required>
+
+			<label>パスワード再入力</label>
+			<input type="password" name="repassword" required>
+
+			<div class="register_button_container">
+				<button type="submit" class="register_button">登録</button>
+			</div>
+		</form>
+		<a href="/SampleMVC/TopPage.html" class="back_button">&lt;</a>
+	 </div>
+</body>
+</html>

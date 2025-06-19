@@ -1,0 +1,84 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.all_content{
+	width: 490px;
+	height: 680px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border:rgb(0, 0, 0) 2px solid;
+	background-color: rgb(192, 192, 192);
+	border-radius: 10px;
+	
+}
+.title_content{
+    padding: 0.5em 1em;
+    background: -moz-linear-gradient(rgb(0, 0, 0), rgb(128, 128, 128));
+    background: -webkit-linear-gradient(rgb(0, 0, 0), rgb(128, 128, 128));
+    background: linear-gradient(to right, rgb(0, 0, 0), rgb(128, 128, 128));
+    color: rgb(255, 255, 255);
+	border-radius: 10px;  
+	margin-bottom: 100px;
+	text-align: center;
+	
+}
+.title_content p {
+    margin: 0; 
+    padding: 0;
+}
+.Login_button_content{
+	background-color: black;
+	color: rgb(192, 192, 192);
+	padding: 1px 20px;
+	font-size: 18px;
+	font-weight: bold;
+	border: 3px solid transparent;
+	border-radius: 12px;
+	background-clip: padding-box;
+	position: relative;
+	cursor: pointer;
+	z-index: 1;
+	margin: 20px;
+}
+.Login_button_content::before{
+	content: "";
+	position: absolute;
+	top: -4px;
+	left: -4px;
+	right: -4px;
+	bottom: -4px;
+	background: linear-gradient(90deg, rgb(52, 49, 62), rgb(128, 128, 128), rgb(0, 0, 0));
+	border-radius: 15px;
+	z-index: -1;
+}
+.New_button_content{
+	background-color: black;
+	color: rgb(192, 192, 192);
+	padding: 1px 20px;
+	font-size: 18px;
+	font-weight: bold;
+	border: 3px solid transparent;
+	border-radius: 12px;
+	background-clip: padding-box;
+	position: relative;
+	cursor: pointer;
+	z-index: 1;
+	margin: 20px;
+}
+.New_button_content::before{
+	content: "";
+	position: absolute;
+	top: -4px;
+	left: -4px;
+	right: -4px;
+	bottom: -4px;
+	background: linear-gradient(90deg, rgb(52, 49, 62), rgb(128, 128, 128), rgb(0, 0, 0));
+	border-radius: 15px;
+	z-index: -1;
+}
