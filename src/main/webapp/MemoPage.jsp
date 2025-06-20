@@ -8,7 +8,7 @@
 <html>
   <head>
     <title>My_Notes</title>
-    <link rel="stylesheet" href="/SampleMVC/MemoPage.css">
+    <link rel="stylesheet" href="/My_Notes/MemoPage.css">
   </head>
 <body>
 <form action="<%=request.getContextPath() %>/<%= isEdit ? "MemoUpdate" : "MemoRegister" %>" method="post">

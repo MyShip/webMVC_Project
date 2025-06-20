@@ -16,7 +16,7 @@ if (user == null) {
 <html>
   <head>
     <title>My_Notes</title>
-    <link rel="stylesheet" href="/SampleMVC/UserPage.css"> 
+    <link rel="stylesheet" href="/My_Notes/UserPage.css"> 
   </head>
 <body>
 <div class="all_content">
@@ -54,7 +54,7 @@ if (user == null) {
 </div>
 
       <div class="button_area">
-        <a href="/SampleMVC/MemoPage.jsp" class="new_register_button">
+        <a href="/My_Notes/MemoPage.jsp" class="new_register_button">
             新規作成
         </a>
         <form action="<%= request.getContextPath() %>/Logout" method="post" style="margin: 0;">
