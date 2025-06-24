@@ -11,9 +11,9 @@ public class MemoDao {
 
 	//接続用の情報をフィールドに定数として定義
 	private static String RDB_DRIVE = "com.mysql.jdbc.Driver";
-	private static String URL = "jdbc:mysql://localhost:3307/My_Notes";
- 	private static String USER = "root";
- 	private static String PASS = "pass";
+	private static final String URL = System.getenv("DB_URL") != null ? System.getenv("DB_URL") : "jdbc:mysql://localhost:3307/My_Notes";
+	private static final String USER = System.getenv("DB_USER") != null ? System.getenv("DB_USER") : "root";
+	private static final String PASS = System.getenv("DB_PASS") != null ? System.getenv("DB_PASS") : "pass";
  
  	//データベース接続を行うメソッド
  	public static Connection getConnection(){
