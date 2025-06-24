@@ -1,12 +1,4 @@
-# OpenJDK 11を使用
-FROM openjdk:11-jdk-slim
-
-# Tomcatをインストール
-RUN apt-get update && apt-get install -y wget && \
-    wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.65/bin/apache-tomcat-9.0.65.tar.gz && \
-    tar -xzf apache-tomcat-9.0.65.tar.gz && \
-    mv apache-tomcat-9.0.65 /opt/tomcat && \
-    rm apache-tomcat-9.0.65.tar.gz
+FROM tomcat:9.0-jdk11
 
 # 作業ディレクトリ設定
 WORKDIR /app
@@ -14,14 +6,45 @@ WORKDIR /app
 # ソースコードをコピー
 COPY . .
 
-# JavaコンパイルとWAR作成のためのスクリプト
-RUN mkdir -p WEB-INF/classes && \
-    find src -name "*.java" -exec javac -cp "lib/*" -d WEB-INF/classes {} + && \
-    jar -cf app.war -C . WEB-INF && \
-    cp app.war /opt/tomcat/webapps/
+# WEB-INFディレクトリ構造を作成
+RUN mkdir -p /app/WEB-INF/classes
 
-# ポート公開
+# Servlet APIを含むクラスパスでコンパイル
+RUN find src -name "*.java" -exec javac \
+    -cp "$CATALINA_HOME/lib/servlet-api.jar:$CATALINA_HOME/lib/jsp-api.jar:lib/*" \
+    -d /app/WEB-INF/classes {} +
+
+# web.xmlがある場合はコピー
+RUN if [ -f "WebContent/WEB-INF/web.xml" ]; then \
+        cp WebContent/WEB-INF/web.xml /app/WEB-INF/; \
+    elif [ -f "src/main/webapp/WEB-INF/web.xml" ]; then \
+        cp src/main/webapp/WEB-INF/web.xml /app/WEB-INF/; \
+    fi
+
+# JSPファイルなどの静的リソースをコピー
+RUN if [ -d "WebContent" ]; then \
+        cp -r WebContent/* /app/; \
+    elif [ -d "src/main/webapp" ]; then \
+        cp -r src/main/webapp/* /app/; \
+    fi
+
+# libディレクトリがある場合はWEB-INF/libにコピー
+RUN if [ -d "lib" ]; then \
+        mkdir -p /app/WEB-INF/lib && \
+        cp lib/* /app/WEB-INF/lib/; \
+    fi
+
+# WARファイルを作成してTomcatにデプロイ
+RUN cd /app && \
+    jar -cf ROOT.war WEB-INF && \
+    if [ -d "META-INF" ]; then jar -uf ROOT.war META-INF; fi && \
+    find . -name "*.jsp" -o -name "*.html" -o -name "*.css" -o -name "*.js" | \
+    xargs -r jar -uf ROOT.war && \
+    cp ROOT.war $CATALINA_HOME/webapps/
+
+# 不要なファイルを削除
+RUN rm -rf $CATALINA_HOME/webapps/ROOT
+
 EXPOSE 8080
 
-# Tomcat起動
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+CMD ["catalina.sh", "run"]
