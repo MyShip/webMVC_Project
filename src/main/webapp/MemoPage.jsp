@@ -8,7 +8,7 @@
 <html>
   <head>
     <title>My_Notes</title>
-    <link rel="stylesheet" href="/My_Notes/MemoPage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/MemoPage.css">
   </head>
 <body>
 <form action="<%=request.getContextPath() %>/<%= isEdit ? "MemoUpdate" : "MemoRegister" %>" method="post">

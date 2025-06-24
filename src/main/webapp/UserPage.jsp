@@ -16,7 +16,7 @@ if (user == null) {
 <html>
   <head>
     <title>My_Notes</title>
-    <link rel="stylesheet" href="/My_Notes/UserPage.css"> 
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/UserPage.css"> 
   </head>
 <body>
 <div class="all_content">
