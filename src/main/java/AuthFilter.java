@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 @WebFilter("/*")
 public class AuthFilter implements Filter {
-    private static final String LOGIN_PAGE = "/LoginPage.html";
+    private static final String TOP_PAGE = "/TopPage.html";
     private static final String[] EXCLUDED_PATHS = {
         "/UserLogin", "/UserRegister","/UserRegister.html" , "/LoginPage.html", 
         "/TopPage.html" 
@@ -37,7 +37,7 @@ public class AuthFilter implements Filter {
         Object loginUser = (session != null) ? session.getAttribute("user") : null;
 
         if (loginUser == null) {
-            response.sendRedirect(request.getContextPath() + LOGIN_PAGE);
+            response.sendRedirect(request.getContextPath() + TOP_PAGE);
             return;
         }
 
