@@ -1,6 +1,8 @@
 FROM tomcat:9.0-jdk11
+
 # 作業ディレクトリ設定
 WORKDIR /app
+
 # ソースコードをコピー
 COPY . .
 
