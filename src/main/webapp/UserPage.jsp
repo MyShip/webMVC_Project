@@ -37,8 +37,8 @@ if (user == null) {
         <li class="memo_item">
           <form action="<%= request.getContextPath() %>/MemoEdit?id=<%= memo.getId() %>" method="post" class="memo_form">
             <button type="submit" class="heading">
-                <strong><%= memo.getTitle() %></strong>
-                <%= memo.getCreateAt() %>
+            <strong><%= memo.getTitle() %></strong>
+            <%= memo.getCreateAt() %>
             </button>
           </form>
           <form action="<%= request.getContextPath() %>/MemoDelete" method="post" class="delete_form">
