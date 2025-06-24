@@ -1,8 +1,6 @@
 FROM tomcat:9.0-jdk11
-
 # 作業ディレクトリ設定
 WORKDIR /app
-
 # ソースコードをコピー
 COPY . .
 
@@ -23,9 +21,12 @@ RUN if [ -f "WebContent/WEB-INF/web.xml" ]; then \
 
 # JSPファイルなどの静的リソースをコピー
 RUN if [ -d "WebContent" ]; then \
-        cp -r WebContent/* /app/; \
+        cp -r WebContent/* /app/ && \
+        # WEB-INFは後で再コピーするので除外して、静的ファイルを確実にルートに配置
+        find WebContent -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.jpg" -o -name "*.png" -o -name "*.gif" -o -name "*.woff*" -o -name "*.ttf" \) -exec cp --parents {} /app/ \; ; \
     elif [ -d "src/main/webapp" ]; then \
-        cp -r src/main/webapp/* /app/; \
+        cp -r src/main/webapp/* /app/ && \
+        find src/main/webapp -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.jpg" -o -name "*.png" -o -name "*.gif" -o -name "*.woff*" -o -name "*.ttf" \) -exec cp --parents {} /app/ \; ; \
     fi
 
 # libディレクトリがある場合はWEB-INF/libにコピー
