@@ -8,11 +8,16 @@ import java.sql.Statement;
 import bean.UserRegister;
 public class UserDao {
 
-	//接続用の情報をフィールドに定数として定義
-	private static String RDB_DRIVE = "com.mysql.jdbc.Driver";
-	private static final String URL = System.getenv("DB_URL") != null ? System.getenv("DB_URL") : "jdbc:mysql://localhost:3307/My_Notes";
+	// MySQL Connector/J 8.0対応 + Railway環境対応
+	private static final String RDB_DRIVE = "com.mysql.cj.jdbc.Driver";
+
+	private static final String URL = System.getenv("DB_URL") != null ?
+	    System.getenv("DB_URL") :
+	    "jdbc:mysql://localhost:3307/My_Notes?useSSL=false&serverTimezone=UTC";
+
 	private static final String USER = System.getenv("DB_USER") != null ? System.getenv("DB_USER") : "root";
 	private static final String PASS = System.getenv("DB_PASS") != null ? System.getenv("DB_PASS") : "pass";
+
  
  	//データベース接続を行うメソッド
  	public static Connection getConnection(){
