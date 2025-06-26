@@ -18,11 +18,11 @@ public class DatabaseConnection {
         }
         
         // MYSQL_URLがない場合は個別の環境変数から構築
-        String host = System.getenv("MYSQLHOST");
-        String port = System.getenv("MYSQLPORT");
-        String database = System.getenv("MYSQLDATABASE");
+        String host = System.getenv("MYSQL_HOST");
+        String port = System.getenv("MYSQL_PORT");
+        String database = System.getenv("MYSQL_DATABASE");
+        String password = System.getenv("MYSQL_ROOT_PASSWORD");
         String user = System.getenv("MYSQLUSER");
-        String password = System.getenv("MYSQLPASSWORD");
         
         // デバッグ用（本番では削除推奨）
         System.out.println("Host: " + host);
