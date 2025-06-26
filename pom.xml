@@ -5,7 +5,7 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <display-name>My Notes App</display-name>
+    <display-name>My_Notes</display-name>
 
     <!-- Welcome file list -->
     <welcome-file-list>
@@ -20,7 +20,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/login</url-pattern>
+        <url-pattern>/UserLogin</url-pattern>
     </servlet-mapping>
 
     <!-- User Register Servlet -->
@@ -60,7 +60,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>MemoEditServlet</servlet-name>
-        <url-pattern>/memo-edit</url-pattern>
+        <url-pattern>/MemoEdit</url-pattern>
     </servlet-mapping>
 
     <!-- Memo Update Servlet -->
@@ -70,7 +70,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>MemoUpdateServlet</servlet-name>
-        <url-pattern>/memo-update</url-pattern>
+        <url-pattern>/MemoUpdate</url-pattern>
     </servlet-mapping>
 
     <!-- Error pages -->
