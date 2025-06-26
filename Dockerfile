@@ -12,15 +12,11 @@ RUN mkdir -p webapp/WEB-INF/classes webapp/WEB-INF/lib
 # ソースコードをコピー
 COPY . .
 
-# MySQL JDBCドライバーをダウンロード（libディレクトリにない場合）
-RUN if [ ! -f "lib/mysql-connector-java*.jar" ]; then \
-    curl -o webapp/WEB-INF/lib/mysql-connector-java-8.0.33.jar \
-    https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.33/mysql-connector-java-8.0.33.jar; \
-fi
-
 # libディレクトリのJARファイルをWEB-INF/libにコピー
 RUN if [ -d "lib" ]; then \
     cp lib/*.jar webapp/WEB-INF/lib/; \
+else \
+    echo "Warning: lib directory not found. Make sure MySQL connector JAR is available."; \
 fi
 
 # Javaファイルをコンパイル
