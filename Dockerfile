@@ -38,14 +38,23 @@ fi
 
 # JSPと静的リソースをコピー
 RUN if [ -d "WebContent" ]; then \
+    # WebContentのすべてのファイルをwebappルートにコピー（WEB-INF以外）
     find WebContent -type f \( -name "*.jsp" -o -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.jpg" -o -name "*.png" -o -name "*.gif" -o -name "*.woff*" -o -name "*.ttf" \) \
-    -exec cp --parents {} webapp/ \; 2>/dev/null || true; \
-    # WebContentから直接コピーして正しい構造にする
-    find WebContent -maxdepth 1 -name "*.jsp" -exec cp {} webapp/ \; 2>/dev/null || true; \
+    -exec bash -c 'file="$1"; target="webapp/${file#WebContent/}"; mkdir -p "$(dirname "$target")"; cp "$file" "$target"' _ {} \; && \
+    # WebContentの直下のファイルをwebappルートにコピー
+    find WebContent -maxdepth 1 -type f \( -name "*.jsp" -o -name "*.html" -o -name "*.css" -o -name "*.js" \) \
+    -exec cp {} webapp/ \; 2>/dev/null || true; \
 elif [ -d "src/main/webapp" ]; then \
+    # Maven標準構造の場合
     find src/main/webapp -type f \( -name "*.jsp" -o -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.jpg" -o -name "*.png" -o -name "*.gif" -o -name "*.woff*" -o -name "*.ttf" \) \
-    -exec cp --parents {} webapp/ \; 2>/dev/null || true; \
+    -exec bash -c 'file="$1"; target="webapp/${file#src/main/webapp/}"; mkdir -p "$(dirname "$target")"; cp "$file" "$target"' _ {} \; && \
+    find src/main/webapp -maxdepth 1 -type f \( -name "*.jsp" -o -name "*.html" -o -name "*.css" -o -name "*.js" \) \
+    -exec cp {} webapp/ \; 2>/dev/null || true; \
 fi
+
+# コピー結果をデバッグ表示
+RUN echo "=== Files in webapp root ===" && ls -la webapp/ && \
+    echo "=== Files in webapp/WEB-INF ===" && ls -la webapp/WEB-INF/ 2>/dev/null || true
 
 # META-INFがある場合はコピー
 RUN if [ -d "META-INF" ]; then \
