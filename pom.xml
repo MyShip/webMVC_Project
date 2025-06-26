@@ -30,7 +30,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>UserRegisterServlet</servlet-name>
-        <url-pattern>/register</url-pattern>
+        <url-pattern>/UserRegister</url-pattern>
     </servlet-mapping>
 
     <!-- Memo Register Servlet -->
@@ -40,7 +40,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>MemoRegisterServlet</servlet-name>
-        <url-pattern>/memo-register</url-pattern>
+        <url-pattern>/MemoRegister</url-pattern>
     </servlet-mapping>
 
     <!-- Memo Delete Servlet -->
@@ -50,7 +50,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>MemoDeleteServlet</servlet-name>
-        <url-pattern>/memo-delete</url-pattern>
+        <url-pattern>/MemoDelete</url-pattern>
     </servlet-mapping>
 
     <!-- Memo Edit Servlet -->
