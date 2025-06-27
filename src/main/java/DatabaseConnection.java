@@ -24,13 +24,6 @@ public class DatabaseConnection {
         String password = System.getenv("MYSQL_ROOT_PASSWORD");
         String user = System.getenv("MYSQL_USER");
 
-        // デバッグ用の出力（本番環境では削除してください）
-        System.out.println("Host: " + host);
-        System.out.println("Port: " + port);
-        System.out.println("Database: " + database);
-        System.out.println("User: " + user);
-        System.out.println("Password: " + (password != null ? "[SET]" : "[NOT SET]"));
-
         if (host == null || port == null || database == null || password == null) {
             throw new SQLException("Database environment variables not properly set");
         }

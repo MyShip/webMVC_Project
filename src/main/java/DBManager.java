@@ -1,18 +1,33 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
+//public class DBManager {
+//    private static final String RDB_DRIVE = "com.mysql.jdbc.Driver";
+//    private static final String URL = "jdbc:mysql://localhost:3307/My_Notes";
+//    private static final String USER = "root";
+//    private static final String PASS = "pass";
+//
+//    public static Connection getConnection() {
+//        try {
+//            Class.forName(RDB_DRIVE);
+//            return DriverManager.getConnection(URL, USER, PASS);
+//        } catch (Exception e) {
+//            throw new IllegalStateException(e);
+//        }
+//    }
+//}
 public class DBManager {
-    private static final String RDB_DRIVE = "com.mysql.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3307/My_Notes";
-    private static final String USER = "root";
-    private static final String PASS = "pass";
-
-    public static Connection getConnection() {
-        try {
-            Class.forName(RDB_DRIVE);
-            return DriverManager.getConnection(URL, USER, PASS);
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
+    private static final String DB_URL = "jdbc:mysql://" + 
+        System.getenv("MYSQLHOST") + ":" + 
+        System.getenv("MYSQLPORT") + "/" + 
+        System.getenv("MYSQLDATABASE") + 
+        "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    
+    private static final String USER = System.getenv("MYSQLUSER");
+    private static final String PASSWORD = System.getenv("MYSQLPASSWORD");
+    
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DB_URL, USER, PASSWORD);
     }
 }
