@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: webMVC_Project
+    env: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: JAVA_OPTS
+        value: "-Xmx256m -server"
+      - key: DB_URL
+        value: "jdbc:postgresql://your-db-host:5432/production_db"
+      - key: LOG_LEVEL
+        value: "INFO"
