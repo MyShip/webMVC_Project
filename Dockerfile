@@ -1,16 +1,33 @@
+# ビルドステージ
+FROM maven:3.8.4-openjdk-11-slim AS build
+
+WORKDIR /app
+
+# すべてのファイルをコピー
+COPY . .
+
+# Mavenプロジェクトかどうかチェックし、ビルド
+RUN if [ -f "pom.xml" ]; then \
+        mvn clean package -DskipTests; \
+    else \
+        echo "No pom.xml found. Creating directory structure..."; \
+        mkdir -p target; \
+        echo "Manual build required"; \
+    fi
+
+# 実行ステージ
 FROM tomcat:9.0-jdk11-openjdk-slim
 
-# 作業ディレクトリ設定
-WORKDIR /usr/local/tomcat
+# 既存のROOTアプリケーションを削除
+RUN rm -rf /usr/local/tomcat/webapps/ROOT
 
-# WARファイルをコピー
-COPY target/My_Notes.war /usr/local/tomcat/webapps/
+# プロジェクトファイルを直接コピーする方法
+COPY WebContent/ /usr/local/tomcat/webapps/ROOT/
+COPY src/ /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/
 
-# Tomcatのメモリ設定
+# または、WARファイルが存在する場合はそれを使用
+# COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
+
 ENV CATALINA_OPTS="-Xms256m -Xmx512m"
-
-# ポート設定
 EXPOSE 8080
-
-# Tomcat起動
 CMD ["catalina.sh", "run"]
