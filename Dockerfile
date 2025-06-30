@@ -1,5 +1,9 @@
 FROM tomcat:9.0-jdk11
 
+# JVMメモリ設定を追加（重要）
+ENV JAVA_OPTS="-Xmx128m -Xms64m -server -Djava.awt.headless=true"
+ENV CATALINA_OPTS="-Djava.security.egd=file:/dev/./urandom"
+
 # 不要なデフォルトアプリケーションを削除
 RUN rm -rf /usr/local/tomcat/webapps/*
 
@@ -11,45 +15,58 @@ COPY . .
 
 # 必要なディレクトリを作成
 RUN mkdir -p /usr/local/tomcat/webapps/ROOT/WEB-INF/classes \
-             /usr/local/tomcat/webapps/ROOT/WEB-INF/lib
+    /usr/local/tomcat/webapps/ROOT/WEB-INF/lib
 
 # JARファイルをコピー（libディレクトリから）
 RUN if [ -d "lib" ]; then \
-    cp lib/*.jar /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/; \
-fi
+        cp lib/*.jar /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/ 2>/dev/null || true; \
+    fi
 
 # Javaファイルをコンパイル
 RUN if [ -d "src" ]; then \
-    find src -name "*.java" -type f > java_files.txt && \
-    if [ -s java_files.txt ]; then \
-        javac -cp "/usr/local/tomcat/lib/servlet-api.jar:/usr/local/tomcat/lib/jsp-api.jar:/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*" \
-        -d /usr/local/tomcat/webapps/ROOT/WEB-INF/classes \
-        @java_files.txt; \
-    fi; \
-fi
+        find src -name "*.java" -type f > java_files.txt && \
+        if [ -s java_files.txt ]; then \
+            javac -cp "/usr/local/tomcat/lib/servlet-api.jar:/usr/local/tomcat/lib/jsp-api.jar:/usr/local/tomcat/webapps/ROOT/WEB-INF/lib/*" \
+                -d /usr/local/tomcat/webapps/ROOT/WEB-INF/classes \
+                @java_files.txt; \
+        fi; \
+    fi
 
 # web.xmlをコピー
 RUN if [ -f "WebContent/WEB-INF/web.xml" ]; then \
-    cp WebContent/WEB-INF/web.xml /usr/local/tomcat/webapps/ROOT/WEB-INF/; \
-elif [ -f "src/main/webapp/WEB-INF/web.xml" ]; then \
-    cp src/main/webapp/WEB-INF/web.xml /usr/local/tomcat/webapps/ROOT/WEB-INF/; \
-fi
+        cp WebContent/WEB-INF/web.xml /usr/local/tomcat/webapps/ROOT/WEB-INF/; \
+    elif [ -f "src/main/webapp/WEB-INF/web.xml" ]; then \
+        cp src/main/webapp/WEB-INF/web.xml /usr/local/tomcat/webapps/ROOT/WEB-INF/; \
+    fi
 
 # WebContentの内容をすべてROOTにコピー
 RUN if [ -d "WebContent" ]; then \
-    cp -r WebContent/* /usr/local/tomcat/webapps/ROOT/ 2>/dev/null || true; \
-elif [ -d "src/main/webapp" ]; then \
-    cp -r src/main/webapp/* /usr/local/tomcat/webapps/ROOT/ 2>/dev/null || true; \
-fi
+        cp -r WebContent/* /usr/local/tomcat/webapps/ROOT/ 2>/dev/null || true; \
+    elif [ -d "src/main/webapp" ]; then \
+        cp -r src/main/webapp/* /usr/local/tomcat/webapps/ROOT/ 2>/dev/null || true; \
+    fi
+
+# 権限設定
+RUN chmod -R 755 /usr/local/tomcat/webapps/ROOT
 
 # デバッグ: ファイル構造を確認
 RUN echo "=== ROOT directory contents ===" && \
     ls -la /usr/local/tomcat/webapps/ROOT/ && \
+    echo "=== WEB-INF contents ===" && \
+    ls -la /usr/local/tomcat/webapps/ROOT/WEB-INF/ 2>/dev/null || true && \
     echo "=== Looking for TopPage.html ===" && \
-    find /usr/local/tomcat/webapps/ -name "TopPage.html" -type f
+    find /usr/local/tomcat/webapps/ -name "TopPage.html" -type f 2>/dev/null || true
+
+# 作業ディレクトリをクリーンアップ
+WORKDIR /usr/local/tomcat
+RUN rm -rf /tmp/build
 
 # ポートを公開
 EXPOSE 8080
+
+# ヘルスチェック追加
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8080/ || exit 1
 
 # Tomcatを起動
 CMD ["catalina.sh", "run"]
