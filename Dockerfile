@@ -7,7 +7,7 @@ ENV JAVA_OPTS="-Xmx64m -Xms32m -Djava.awt.headless=true"
 RUN rm -rf /usr/local/tomcat/webapps/*
 
 # WARファイルをコピー（事前にEclipseで作成）
-COPY your-app.war /usr/local/tomcat/webapps/ROOT.war
+COPY My_Notes.war /usr/local/tomcat/webapps/ROOT.war
 
 # ポートを公開
 EXPOSE 8080
