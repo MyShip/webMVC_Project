@@ -3,46 +3,44 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-
     public static Connection getConnection() throws SQLException {
-        // まずMYSQL_URLを試す（Railway内部接続用）
-        String mysqlUrl = System.getenv("MYSQL_URL");
+        // RenderのPostgreSQLサービス用
+        String databaseUrl = System.getenv("DATABASE_URL");
         
-        if (mysqlUrl != null && !mysqlUrl.isEmpty()) {
+        if (databaseUrl != null && !databaseUrl.isEmpty()) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
+                Class.forName("org.postgresql.Driver");
             } catch (ClassNotFoundException e) {
-                throw new SQLException("MySQL JDBC driver not found", e);
+                throw new SQLException("PostgreSQL JDBC driver not found", e);
             }
-            return DriverManager.getConnection(mysqlUrl);
+            return DriverManager.getConnection(databaseUrl);
         }
-
-        // MYSQL_URLが設定されていない場合は個別の環境変数から構築
-        String host = System.getenv("MYSQL_HOST");
-        String port = System.getenv("MYSQL_PORT");
-        String database = System.getenv("MYSQL_DATABASE");
-        String password = System.getenv("MYSQL_ROOT_PASSWORD");
-        String user = System.getenv("MYSQL_USER");
-
-        if (host == null || port == null || database == null || password == null) {
-            throw new SQLException("Database environment variables not properly set");
-        }
-
-        // userが設定されていない場合はrootを使用
-        if (user == null) {
-            user = "root";
-        }
-
-        // JDBC URLを構築（SSL無効化とタイムゾーン設定を追加）
-        String url = "jdbc:mysql://" + host + ":" + port + "/" + database + 
-                     "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-
+        
+        // 個別パラメータから構築
+        String host = System.getenv("DB_HOST");
+        String port = System.getenv("DB_PORT");
+        String database = System.getenv("DB_NAME");
+        String user = System.getenv("DB_USER");
+        String password = System.getenv("DB_PASSWORD");
+        
+        // ローカル開発用のフォールバック
+        if (host == null) host = "localhost";
+        if (port == null) port = "5432";
+        if (database == null) database = "my_notes";
+        if (user == null) user = "postgres";
+        if (password == null) password = "";
+        
+        // PostgreSQL JDBC URLを構築
+        String url = "jdbc:postgresql://" + host + ":" + port + "/" + database + 
+                     "?sslmode=require&user=" + user + "&password=" + password;
+        
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            throw new SQLException("MySQL JDBC driver not found", e);
+            throw new SQLException("PostgreSQL JDBC driver not found", e);
         }
-
-        return DriverManager.getConnection(url, user, password);
+        
+        System.out.println("Connecting to PostgreSQL database: " + host + ":" + port + "/" + database);
+        return DriverManager.getConnection(url);
     }
 }
