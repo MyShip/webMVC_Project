@@ -1,16 +1,16 @@
-FROM tomcat:9.0-jre11-slim
+FROM tomcat:9.0-jdk11-openjdk-slim
 
-# 最小限のメモリ設定
-ENV JAVA_OPTS="-Xmx64m -Xms32m -Djava.awt.headless=true"
+# 作業ディレクトリ設定
+WORKDIR /usr/local/tomcat
 
-# 既存のwebappsを削除
-RUN rm -rf /usr/local/tomcat/webapps/*
+# WARファイルをコピー
+COPY target/My_Notes.war /usr/local/tomcat/webapps/
 
-# WARファイルをコピー（事前にEclipseで作成）
-COPY My_Notes.war /usr/local/tomcat/webapps/My_Notes.war
+# Tomcatのメモリ設定
+ENV CATALINA_OPTS="-Xms256m -Xmx512m"
 
-# ポートを公開
+# ポート設定
 EXPOSE 8080
 
-# Tomcatを起動
+# Tomcat起動
 CMD ["catalina.sh", "run"]
