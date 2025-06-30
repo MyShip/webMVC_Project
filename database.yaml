@@ -1,13 +1,11 @@
 services:
   - type: web
-    name: webMVC_Project
+    name: my-notes-app
     env: docker
     dockerfilePath: ./Dockerfile
-    healthCheckPath: /health
+    plan: free
     envVars:
       - key: JAVA_OPTS
-        value: "-Xmx256m -server"
-      - key: DB_URL
-        value: "jdbc:postgresql://My_Notes:5432/production_db"
-      - key: LOG_LEVEL
-        value: "INFO"
+        value: "-Xms128m -Xmx400m"
+      - key: CATALINA_OPTS  
+        value: "-server -Xms128m -Xmx400m"
