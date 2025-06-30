@@ -13,8 +13,8 @@ public class MemoDao {
 	private static final String RDB_DRIVE = "com.mysql.cj.jdbc.Driver";
 
 	private static final String URL = System.getenv("MYSQL_URL") != null ?
-		    System.getenv("MYSQL_URL") :
-		    "jdbc:mysql://localhost:3307/My_Notes?useSSL=false&serverTimezone=UTC";
+		System.getenv("MYSQL_URL") :
+		"jdbc:mysql://localhost:3307/My_Notes?useSSL=false&serverTimezone=UTC";
 
 	private static final String USER = System.getenv("MYSQLUSER") != null ? System.getenv("MYSQLUSER") : "root";
 	private static final String PASS = System.getenv("MYSQLPASSWORD") != null ? System.getenv("MYSQLPASSWORD") : "pass";
