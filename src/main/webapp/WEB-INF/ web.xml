@@ -9,8 +9,7 @@
 
     <!-- Welcome file list -->
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-        <welcome-file>LoginPage.html</welcome-file>
+        <welcome-file>TopPage.html</welcome-file>
     </welcome-file-list>
 
     <!-- Login Servlet -->
