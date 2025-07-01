@@ -1,12 +1,10 @@
-FROM tomcat:9.0-jdk11-openjdk-slim
+# Tomcatベースのイメージを使う
+FROM tomcat:9.0
 
-RUN rm -rf /usr/local/tomcat/webapps/ROOT
+# WARファイルをTomcatのwebappsにコピー
+COPY My_Notes.war /usr/local/tomcat/webapps/
 
-COPY WebContent/ /usr/local/tomcat/webapps/ROOT/
-COPY build/classes/ /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/
-COPY startup.sh /startup.sh
-
-RUN chmod +x /startup.sh
-
+# ポート解放
 EXPOSE 8080
-CMD ["/startup.sh"]
+
+# Tomcat起動（CMDは既にベースイメージで定義済み）
