@@ -19,9 +19,9 @@ import java.sql.SQLException;
 //}
 public class DBManager {
     private static final String DB_URL = "jdbc:mysql://" + 
-        System.getenv("MYSQLHOST") + ":" + 
-        System.getenv("MYSQLPORT") + "/" + 
-        System.getenv("MYSQLDATABASE") + 
+        System.getenv("DMYSQL_HOST") + ":" + 
+        System.getenv("DMYSQL_PORT") + "/" + 
+        System.getenv("DMYSQL_NAME") + 
         "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     
     private static final String USER = System.getenv("MYSQLUSER");
