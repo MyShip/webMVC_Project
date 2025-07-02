@@ -17,11 +17,11 @@ public class DatabaseConnection {
         }
         
         // 個別パラメータから構築
-        String host = System.getenv("DB_HOST");
-        String port = System.getenv("DB_PORT");
-        String database = System.getenv("DB_NAME");
-        String user = System.getenv("DB_USER");
-        String password = System.getenv("DB_PASSWORD");
+        String host = System.getenv("DMYSQL_HOST");
+        String port = System.getenv("DMYSQL_PORT");
+        String database = System.getenv("DMYSQL_NAME");
+        String user = System.getenv("MYSQLUSER");
+        String password = System.getenv("MYSQLPASSWORD");
         
         // ローカル開発用のフォールバック
         if (host == null) host = "localhost";
