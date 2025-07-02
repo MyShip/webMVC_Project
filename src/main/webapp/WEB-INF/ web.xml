@@ -9,7 +9,7 @@
 
     <!-- Welcome file list -->
     <welcome-file-list>
-        <welcome-file>My_Notes/TopPage.html</welcome-file>
+        <welcome-file>TopPage.html</welcome-file>
     </welcome-file-list>
 
     <!-- Login Servlet -->
